@@ -4,12 +4,16 @@
         <meta charset="utf-8" />
         <title>WorseWeather</title>
 
+        <meta name="viewport" content="width=device-width" />
+
+        <!-- for Google -->
+        <meta name="description" content="Helps you stop complaining about the weather by showing a place where the weather is worse." />
+        <meta name="keywords" content="jQuery, JavaScript, weather, OpenWeatherMap.org, API" />    
+        <meta name="author" content="Andrea Kereliuk" />
+
         <!-- Stylesheets -->
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-
-        <!-- Google Font -->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Playball|Open+Sans+Condensed:300,700" />
 
         <!--[if lt IE 9]>
           <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -25,11 +29,13 @@
             </header>
 
             <div id="display-panel">
-
+                
+                <!-- loading message -->
                 <div class="loading">
                     <p>Loading<span class="dot-one">.</span><span class="dot-two">.</span><span class="dot-three">.</span></p>
                 </div>
 
+                <!-- dynamic weather loading area -->
                 <div class="openweather">
                     <div id="city-name">
 

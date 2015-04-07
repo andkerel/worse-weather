@@ -61,7 +61,7 @@ function locationSuccess(position) {
                 //GET weather for others: moscow, toronto, ulaanbaatar, mumbai, khartoum, miami, yellowknife, san jose (costa rica)
                 $.ajax({
                 type:"GET", 
-                url: "http://api.openweathermap.org/data/2.5/group?id=524901,6167865,2028462,1275339,379252,4164138,6185377,3669557&APPID=09ad5a2c662be0b2d499553ff54f4228", 
+                url: "http://api.openweathermap.org/data/2.5/group?id=524901,6167865,2028462,1275339,379252,4164138,6185377,3621849&APPID=09ad5a2c662be0b2d499553ff54f4228", 
                 dataType: "json"})
             ); 
 
@@ -71,6 +71,7 @@ function locationSuccess(position) {
                 $('.loading').css('display', 'none');
                 $('.openweather').css('display', 'block');
 
+                //current weather object
                 var current = {
                     city: current[0].name,
                     temp: roundTemperature(current[0].main.temp),
@@ -79,20 +80,88 @@ function locationSuccess(position) {
                     code: current[0].cod
                 }
 
-                $.each(others.list, function(key, value)) {
-                    
+                //moscow weather object
+                var moscow = {
+                    city: others[0].list[0].name,
+                    temp: roundTemperature(others[0].list[0].main.temp),
+                    message: others[0].list[0].weather[0].description,
+                    iconURL: others[0].list[0].weather[0].icon,
+                    code: others[0].list[0].weather[0].id
                 }
 
-                var others = {
-
+                //toronto weather object (at some point I will figure out how to loop through these)
+                var toronto = {
+                    city: others[0].list[1].name,
+                    temp: roundTemperature(others[0].list[1].main.temp),
+                    message: others[0].list[1].weather[0].description,
+                    iconURL: others[0].list[1].weather[0].icon,
+                    code: others[0].list[1].weather[0].id
                 }
 
-                // weatherData.temperatureValue = tempK;
+                //ulaanbaatar weather object
+                var ulaan = {
+                    city: others[0].list[2].name,
+                    temp: roundTemperature(others[0].list[2].main.temp),
+                    message: others[0].list[2].weather[0].description,
+                    iconURL: others[0].list[2].weather[0].icon,
+                    code: others[0].list[2].weather[0].id
+                }
+                 
+                //mumbai weather object
+                var mumbai = {
+                    city: others[0].list[3].name,
+                    temp: roundTemperature(others[0].list[3].main.temp),
+                    message: others[0].list[3].weather[0].description,
+                    iconURL: others[0].list[3].weather[0].icon,
+                    code: others[0].list[3].weather[0].id
+                }
 
-                weatherData.city.innerHTML = current.city;
-                weatherData.message.innerHTML =  current.message;
-                weatherData.temperature.innerHTML = current.temp + weatherData.units;
-                $('#weather-icon').css("background-image", "url('http://openweathermap.org/img/w/" + current.iconURL + ".png')");
+                //khartoum weather object
+                var khartoum = {
+                    city: others[0].list[4].name,
+                    temp: roundTemperature(others[0].list[4].main.temp),
+                    message: others[0].list[4].weather[0].description,
+                    iconURL: others[0].list[4].weather[0].icon,
+                    code: others[0].list[4].weather[0].id
+                }
+
+                //miami weather object
+                var miami = {
+                    city: others[0].list[5].name,
+                    temp: roundTemperature(others[0].list[5].main.temp),
+                    message: others[0].list[5].weather[0].description,
+                    iconURL: others[0].list[5].weather[0].icon,
+                    code: others[0].list[5].weather[0].id
+                }
+
+                //yellowknife weather object
+                var yknife = {
+                    city: others[0].list[6].name,
+                    temp: roundTemperature(others[0].list[6].main.temp),
+                    message: others[0].list[6].weather[0].description,
+                    iconURL: others[0].list[6].weather[0].icon,
+                    code: others[0].list[6].weather[0].id
+                }
+
+                //san jose weather object
+                var sj = {
+                    city: others[0].list[7].name,
+                    temp: roundTemperature(others[0].list[7].main.temp),
+                    message: others[0].list[7].weather[0].description,
+                    iconURL: others[0].list[7].weather[0].icon,
+                    code: others[0].list[7].weather[0].id
+                }
+
+                //create othercities array
+                var othercities = [];
+                othercities.push(moscow, toronto, ulaan, mumbai, khartoum, miami, yknife, sj);
+
+                
+
+                weatherData.city.innerHTML = ulaan.city;
+                weatherData.message.innerHTML =  moscow.message;
+                weatherData.temperature.innerHTML = moscow.temp + weatherData.units;
+                $('#weather-icon').css("background-image", "url('http://openweathermap.org/img/w/" + moscow.iconURL + ".png')");
 
             });
 

@@ -153,15 +153,105 @@ function locationSuccess(position) {
                 }
 
                 //create othercities array
-                var othercities = [];
-                othercities.push(moscow, toronto, ulaan, mumbai, khartoum, miami, yknife, sj);
+                var otherCities = [];
+                otherCities.push(moscow, toronto, ulaan, mumbai, khartoum, miami, yknife, sj);
 
-                
+                //shuffle order for more "random" pick
+                function shuffle(array) {
+                    var currentIndex = array.length, temporaryValue, randomIndex ;
 
-                weatherData.city.innerHTML = ulaan.city;
-                weatherData.message.innerHTML =  moscow.message;
-                weatherData.temperature.innerHTML = moscow.temp + weatherData.units;
-                $('#weather-icon').css("background-image", "url('http://openweathermap.org/img/w/" + moscow.iconURL + ".png')");
+                    // While there remain elements to shuffle...
+                    while (0 !== currentIndex) {
+
+                        // Pick a remaining element...
+                        randomIndex = Math.floor(Math.random() * currentIndex);
+                        currentIndex -= 1;
+
+                        // And swap it with the current element.
+                        temporaryValue = array[currentIndex];
+                        array[currentIndex] = array[randomIndex];
+                        array[randomIndex] = temporaryValue;
+                    }
+
+                  return array;
+                }
+
+                var shuffleCities = shuffle(otherCities);
+
+                //variable holder for worse weather
+                var worse = {}
+
+                //create function to check extreme weather codes
+                function extremes(x) {
+                    if ((x >= 200 && x <= 232)
+                    || x == 762 
+                    || x == 771
+                    || x == 781
+                    || (x >= 900 && x <= 906)
+                    || (x >= 960 && x <= 962)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                //create function to check if no extreme weather codes
+                function notExtremes(x) {
+                    if ((x >= 200 && x <= 232)
+                    || x == 762 
+                    || x == 771
+                    || x == 781
+                    || (x >= 900 && x <= 906)
+                    || (x >= 960 && x <= 962)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
+                for (i = 0; i < shuffleCities.length; i ++) {
+                    try {
+                        if (extremes(shuffleCities[i].code) && notExtremes(current.code)) {
+                            console.log("EXTREME HIT");
+                            worse.city = shuffleCities[i].city;
+                            worse.message = shuffleCities[i].message;
+                            worse.temp = shuffleCities[i].temp;
+                            worse.iconURL = shuffleCities[i].iconURL;
+                            worse.messageAdd = "Extreme Weather: " + worst.message;
+                            break;
+                        } else {
+                            console.log("NO EXTREMES TODAY");
+                            if (current.temp < 30 && shuffleCities[i].temp < current.temp) {
+                                worse.city = shuffleCities[i].city;
+                                worse.message = shuffleCities[i].message;
+                                worse.temp = shuffleCities[i].temp;
+                                worse.iconURL = shuffleCities[i].iconURL; 
+                                worse.messageAdd = "It's colder, here!"                               
+                                console.log("colder");
+                                break;
+                            } else if (current.temp >= 30 && shuffleCities[i].temp > current.temp) {
+                                worse.city = shuffleCities[i].city;
+                                worse.message = shuffleCities[i].message;
+                                worse.temp = shuffleCities[i].temp;
+                                worse.iconURL = shuffleCities[i].iconURL;  
+                                worse.messageAdd = "It's hotter, here!"
+                                break;
+                            }
+                        }
+                    }
+                    catch(e){     
+                        console.log("you are the worst!");
+                        worse.temp = current.temp;
+                        worse.iconURL = current.iconURL;  
+                        worse.city = current.city;
+                        worse.messageAdd = "You have the worst weather. Ouch!";
+                    }
+                }   
+
+                weatherData.city.innerHTML = worse.city;
+                weatherData.message.innerHTML = worse.messageAdd;
+                weatherData.temperature.innerHTML = worse.temp + weatherData.units;
+                $('#weather-icon').css("background-image", "url('http://openweathermap.org/img/w/" + worse.iconURL + ".png')");
 
             });
 
@@ -198,3 +288,7 @@ function locationError(error){
     }
 
 }
+
+//initialize random button to refresh page
+var random = document.getElementById("randomize");
+random.addEventListener("click", function() { location.reload() });

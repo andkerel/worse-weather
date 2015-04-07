@@ -134,10 +134,28 @@ h1 {
     font-size: 2em; 
 }
 
-.randomize {
+#randomize {
     font-family: munroregular, Arial, sans-serif;
     font-size: 2em;
+    margin: 0 auto;
+    width: 50%;
+    text-align: center;
+    padding: 0.25%;
     margin-top: 10%;
+    background-color: #3f7cac;
+    border-radius: 2px;
+    -webkit-box-shadow: 4px 4px 21px 0px rgba(0,0,0,0.66);
+    -moz-box-shadow: 4px 4px 21px 0px rgba(0,0,0,0.66);
+    box-shadow: 4px 4px 21px 0px rgba(0,0,0,0.66);
+}
+
+#randomize:hover {
+    cursor: pointer;
+}
+
+.fit-to-center {
+    margin: 0 auto;
+    width: auto;
 }
 
 
